@@ -1,5 +1,7 @@
 package objects;
 
+import utilz.Constants;
+
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
@@ -38,10 +40,9 @@ public class GameObject {
                 // TODO: set aniIndex to 0
                 aniIndex = 0;
                 // TODO: check if objType is BARRELL or BOX
-                if (objType = BARREL || objType = BOX) {
+                if (objType == BARREL || objType == BOX) {
                     // if block beginning
                     // TODO: set doAnimation to false
-                    doAnimation = false;
                     // TODO: set active to false
                     active = false;
                     // end of if
@@ -49,7 +50,6 @@ public class GameObject {
                     // beginning of else if block for objType equal to CANNON_LEFT or CANNON_RIGHT
                 else {
                     // TODO: set doAnimation to false
-                    doAnimation = false;
                     // end of else if
                 }
                 // end of if
@@ -66,23 +66,32 @@ public class GameObject {
         active = true;
 
         // TODO: check if objType is a BARRELL or BOX, or CANNON_LEFT or CANNON_RIGHT
+        if (objType == BARREL || objType == BOX || objType == CANNON_LEFT || objType == CANNON_RIGHT) {
             // if block beginning
             // TODO: set doAnimation to false
+            doAnimation = false;
             // end of if block
+        }
         // else block beginning
+        else {
             // TODO: set doAnimation to true
+            doAnimation = true;
             // end of else block
         }
     }
 
     protected void initHitbox(int width, int height){
         // TODO: set hitbox to new Rectangle2D.Float()
+        hitbox = new Rectangle2D.Float(x, y, (int) (width * Constants.Game.SCALE), (int) (height * Constants.Game.SCALE));
         // cont.  passing in x, y, (int) (width * Game.SCALE), (int) (height * Game.SCALE)
+
     }
 
     public void drawHitbox(Graphics g, int xLvlOffset){
         // TODO: call g's setColor method and pass in Color.PINK
+        g.setColor(Color.PINK);
         // TODO: call g's drawRect method passing in
+        g.drawRect((int) hitbox.x - xLvlOffset, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
         // cont. (int) hitbox.x - xLvlOffset, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height
     }
 

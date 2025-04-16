@@ -4,8 +4,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -36,50 +38,70 @@ public class LoadSave {
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
         // TODO: create a BufferedImage variable named img and set to null
+        BufferedImage img = null;
         // TODO: create an InputStream variable named is and set to LoadSave.class.getResourceAsStream("/" + filename)
+        InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
         try {
             // TODO: set img to ImageIO.read(is)
+            img = ImageIO.read(is);
         } catch (IOException e) {
             // TODO: call e.printStackTrace()
+            e.printStackTrace();
         } finally {
             try {
                 // TODO: call is.close()
+                is.close();
             } catch (IOException e) {
                 // TODO: call e.printStackTrace()
+                e.printStackTrace();
             }
         }
 
+        // TODO: return img;
         return img;
     }
 
     public static BufferedImage[] GetAllLevels() {
         // TODO: create a URL named url and assign LoadSave.class.getResource("/lvls") to it.
+        URL url = LoadSave.class.getResource("/lvls");
         // TODO: create a File named file and assign null to it.
+        File file = null;
 
-        try{
+        try {
             // TODO: assign newFile(url.toURI()) to file
+            file = new File(url.toURI());
         } catch (URISyntaxException e) {
             // TODO: call e.printStackTrace()
+            e.printStackTrace();
         }
 
         // TODO: make a File array named files and assign files.listFiles() to it
+        File[] files = files.listFiles();
         // TOOD: repeat for filesSorted and assign new File[files.length] to it.
+        File[] filesSorted = new File[files.length];
 
         for (int i = 0; i < filesSorted.length; i++)
             for (int j = 0; j < files.length; j++) {
-                // TODO: if files[j].getName().equals((i + 1) + ".png") then set 
-                // TODO: (cont.) filesSorted[i] to files[j]
+                // TODO: if files[j].getName().equals((i + 1) + ".png") then set
+                if (files[j].getName().equals((i + 1) + ".png")) {
+                    // TODO: (cont.) filesSorted[i] to files[j]
+                    filesSorted[i] = files[j];
+                }
             }
-        
+
         // TODO: create a BufferedImage array named imgs and initialize to a new BufferedImage passing in the length of filesSorted
+        BufferedImage[] imgs = new BufferedImage[filesSorted.length];
 
         for (int i = 0; i < imgs.length; i++)
             try {
                 // TODO: set imgs[i] to ImageIO.read(filesSorted[i])
+                imgs[i] = ImageIO.read(filesSorted[i]);
             } catch (IOException e) {
                 // TODO: call e.printStackTrace();
+                e.printStackTrace();
             }
 
+        // TODO: return imgs;
         return imgs;
     }
 

@@ -1,21 +1,45 @@
+
 package objects;
 
-import main.Game;
 import utilz.Constants;
 
-public class GameContainer extends GameObject {
+import javax.swing.*;
+
+import static utilz.Constants.ObjectConstants.BOX;
+
+public class GameContainer extends GameObject{
 
     public GameContainer(int x, int y, int objType) {
-        // TODO: call super passing in x, y, objType
         super(x, y, objType);
-        // TODO: set tileY to y / Game.TILES_SIZE
-        tileY = y / Constants.Game.TILES_SIZE;
-        // TODO: call initHitbox() passing in 40, 26
-        initHitbox(40, 26);
-        // TODO: subtract (int)(4 * Game.SCALE) from hitbox.x
-        hitbox.x - (int)(4 * Game.SCALE);
-        // TODO: add (int)(6 * Game.SCALE) to hitbox.y
-        hitbox.y + (int)(6 * Game.SCALE);
+        // TODO: call super passing in x, y, objType
+        // TODO: call createHitbox()
+        createHitbox();
+    }
+
+    private void createHitbox(){
+        // TODO: if else statement here
+        // check if objType is a box
+        if (objType == BOX) {
+            // TODO: if so call initHitbox(25, 18) then
+            initHitbox(25, 18);
+            // TODO: set xDrawOffset to (int) (7 * Game.SCALE)
+            xDrawOffset = (int) (7 * Constants.Game.SCALE);
+            // TODO: set yDrawOffset to (int) (12 * Game.SCALE)
+            yDrawOffset = (int) (12 * Constants.Game.SCALE);
+        }else {
+            // else
+            // TODO: call initHitbox(23, 25) then
+            initHitbox(23, 25);
+            // TODO: set xDrawOffset to (int) (8 * Game.SCALE)
+            xDrawOffset = (int) (8 * Constants.Game.SCALE);
+            // TODO: set yDrawOffset to (int) (5 * Game.SCALE)
+            yDrawOffset = (int) (5 * Constants.Game.SCALE);
+        }
+        // end of if else block
+        // TODO: add yDrawOffset + (int) (Game.SCALE * 2) to hitbox.y
+        hitbox.y += yDrawOffset + (int) (Constants.Game.SCALE * 2);
+        // TODO: add xDrawOffset / 2 to hitbox.x
+        hitbox.x += xDrawOffset / 2;
     }
 
     public void update(){
@@ -25,8 +49,4 @@ public class GameContainer extends GameObject {
         }
     }
 
-    public int getTileY() {
-        // TODO: return tileY
-        return tileY();
-    }
 }

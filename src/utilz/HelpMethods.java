@@ -1,7 +1,9 @@
 package utilz;
 
 import static utilz.Constants.*;
+import static utilz.Constants.EnemyConstants.CRABBY;
 import static utilz.Constants.ObjectConstants.*;
+import static utilz.Constants.Game.TILES_SIZE;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -33,22 +35,22 @@ public class HelpMethods {
 
     private static boolean IsSolid(float x, float y, int[][] lvlData) {
         // TODO: create an int called maxWidth and set to lvlData[0].length * Game.TILES_SIZE
-        int maxWidth = lvlData[0].length * Game.TILES_SIZE;
+        int maxWidth = lvlData[0].length * Constants.Game.TILES_SIZE;
         // TODO check if x is less than 0 or x is greater than or equal to maxWidth.
         if (x < 0 || 0 >= maxWidth) {
             // TODO: (cont.) if the condition is true return true
             return true;
         }
         // TODO: check if y is less than 0 or y is greater than or equal to Game.GAME_HEIGHT
-        if (y < 0 || y >= Game.GAME_HEIGHT) {
+        if (y < 0 || y >= Constants.Game.GAME_HEIGHT) {
             // TODO: (cont.) if the condition is true return true
             return true;
         }
 
         // TODO: make a float called xIndex and set to x / Game.TILES_SIZE
-        float xIndex = x / Game.TILES_SIZE;
+        float xIndex = x / Constants.Game.TILES_SIZE;
         // TODO: repeat for y
-        float yIndex = y / Game.TILES_SIZE;
+        float yIndex = y / Constants.Game.TILES_SIZE;
 
         // TODO: create an int named xTile and set to (int) xIndex.  This casts the float to an int chopping off the decimal.
         int xTile = (int) xIndex;
@@ -86,8 +88,8 @@ public class HelpMethods {
     public static boolean IsProjectileHittingLevel(Projectile p, int[][] lvlData) {
         // TODO: create a float named hitboxCenterX and set to (p.getHitbox().x + p.getHitbox().width) / 2
         float hitboxCenterX = (p.getHitbox().x + p.getHitbox().width) / 2;
-        // TODO: repeat for hitboxCenterY in the same fashion but use y and height instead
-        float hitboxCenterY = (p.getHitbox().y + p.getHitbox().height) / 2
+        // TODO: repeat for hotboxCenterY in the same fashion but use y and height instead
+        float hitboxCenterY = (p.getHitbox().y + p.getHitbox().height) / 2;
         return IsSolid(
                 hitboxCenterX,
                 hitboxCenterY,
@@ -97,50 +99,51 @@ public class HelpMethods {
 
     public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float xSpeed) {
         // TODO: create an int named currentTile and set to (int) (hitbox.x / Game.TILES_SIZE)
-        int currentTile = (int)(hitbox.x / Game.TILES_SIZE);
+        int currentTile = (int)(hitbox.x / Constants.Game.TILES_SIZE);
         // TODO: check if xSpeed is positive.  (This is the Right)
         if (xSpeed > 0) {
             // TODO: (cont.) if the condition is true do the following
             // TODO: (cont.) create an int named tileXPos and set to currentTile * Game.TILES_SIZE
-            int tileXPos = currentTile * Game.TILES_SIZE;
+            int tileXPos = currentTile * Constants.Game.TILES_SIZE;
             // TODO: (cont.) create an int named xOffset and set to (int)(Game.TILES_SIZE - hitbox.width
-            int xOffset = (int) (Game.TILES_SIZE - hitbox.width);
+            int xOffset = (int) (Constants.Game.TILES_SIZE - hitbox.width);
             // TODO: (cont.) return tileXPos + xOffset - 1
             return tileXPos + xOffset - 1;
         }
         // TODO: else return currentTile * GAME.TILES_SIZE  (This is the Left)
         else {
-            return currentTile * Game.TILES_SIZE;
+            return currentTile * Constants.Game.TILES_SIZE;
         }
     }
 
     public static float GetEntityYPosUnderRoofOrAboveFloor(Rectangle2D.Float hitbox, float airSpeed) {
         // TODO: create an int named currentTile and set to (int) (hitbox.y / Game.TILES_SIZE)
-        int currentTile = (int) (hitbox.y / Game.TILES_SIZE);
+        int currentTile = (int) (hitbox.y / Constants.Game.TILES_SIZE);
         // TODO: check if airSpeed is positive.  (This is the Falling - touching floor)
         if (airSpeed > 0) {
             // TODO: (cont.) if the condition is true do the following
             // TODO: (cont.) create an int named tileYPos and set to currentTile * Game.TILES_SIZE
-            int tileYPos = currentTile * Game.TILES_SIZE;
+            int tileYPos = currentTile * Constants.Game.TILES_SIZE;
             // TODO: (cont.) create an int named yOffset and set to (int)(Game.TILES_SIZE - hitbox.height
-            int yOffset = (int) (Game.TILES_SIZE - hitbox.height);
+            int yOffset = (int) (Constants.Game.TILES_SIZE - hitbox.height);
             // TODO: (cont.) return tileXPos + yOffset - 1
             return tileYPos + yOffset - 1;
         }
         // TODO: else return currentTile * GAME.TILES_SIZE  (This is Jumping)
         else {
-            return currentTile * GAME.TILES_SIZE;
+            return currentTile * Constants.Game.TILES_SIZE;
         }
     }
 
     public static boolean IsEntityOnFloor(Rectangle2D.Float hitbox, int[][] lvlData) {
         // TODO: if !IsSolid(hitbox.x, hitbox.y + hitbox.height +1, lvlData then
-        if (!IsSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData)){
-        // TODO: if !IsSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData then
-            if (!IsSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height  +1, lvlData)) {
+        if (!IsSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData)) {
+            // TODO: if !IsSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData then
+            if (!IsSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData)) {
                 // TODO: return false
                 return false;
             }
+        }
         return true;
     }
 
@@ -159,9 +162,9 @@ public class HelpMethods {
 
     public static boolean CanCannonSeePlayer(int[][] lvlData, Rectangle2D.Float firstHitbox, Rectangle2D.Float secondHitbox, int yTile) {
         // TODO: create an int named firstXTile and set to (int) (firstHitbox.x / Game.TILES_SIZE)
-            int firstXTile = (int) (firstHitbox.x / Game.TILES_SIZE);
+            int firstXTile = (int) (firstHitbox.x / Constants.Game.TILES_SIZE);
         // TODO: repeat for secondXTile in appropriate fashion using the secondHitbox
-            int secondXTile = (int) (secondHitbox.x / Game.TILES_SIZE);
+            int secondXTile = (int) (secondHitbox.x / Constants.Game.TILES_SIZE);
 
         // TODO: if firstXTile is greater than secondXTile then
             if (firstXTile > secondXTile) {
@@ -177,9 +180,11 @@ public class HelpMethods {
 
     public static boolean IsAllTilesClear(int xStart, int xEnd, int y, int[][] lvlData) {
         // TODO: for int i starting at 0 and ending before xEnd - xStart, adding 1 to i each iteration
-            for (int i = 0 || i <= xEnd - xStart || i ++) {
+            for (int i = 0; i >= xEnd - xStart; i++) {
                 // TODO: check if IsTileSolid with xStart +i, y, and lvlData then
-                if (IsTileSolid(xStart + i, ))
+                if (IsTileSolid(xStart + i, y, lvlData)){
+                    return false;
+                }
             }
         // TODO: return false
         return true;
@@ -188,19 +193,29 @@ public class HelpMethods {
     public static boolean IsAllTilesWalkable(int xStart, int xEnd, int y, int[][] lvlData) {
         if(IsAllTilesClear(xStart, xEnd, y, lvlData)){
             // TODO: for int i starting at 0 ending before xEnd - xStart, incrementing by 1 each time then
-            // TODO: return false
+            for (int i = 0; i >= xEnd - xStart; i++) {
+                // TODO: return false
+                return false;
+            }
         }
         return true;
     }
 
     public static boolean IsSightClear(int[][] lvlData, Rectangle2D.Float firstHitbox, Rectangle2D.Float secondHitbox, int yTile) {
         // TODO: create an int named firstXTile and set to (int) (firstHitbox.x / Game.TILES_SIZE)
+            int firstXTile = (int) (firstHitbox.x / Constants.Game.TILES_SIZE);
         // TODO: repeat for secondXTile in appropriate fashion using the secondHitbox
-
+            int secondXTile = (int) (secondHitbox.x / Constants.Game.TILES_SIZE);
         // TODO: if firstXTile is greater than secondXTile then
-        // TODO: return IsAllTilesWalkable(secondXTile, firstXTile, yTile, lvlData)
+            if (firstXTile > secondXTile) {
+                // TODO: return IsAllTilesWalkable(secondXTile, firstXTile, yTile, lvlData)
+                return IsAllTilesWalkable(secondXTile, firstXTile, yTile, lvlData);
+            }
         // TODO: else
-        // TODO: return IsAllTilesWalkable(firstXTile, secondXTile, yTile, lvlData)
+        else {
+                // TODO: return IsAllTilesWalkable(firstXTile, secondXTile, yTile, lvlData)
+                return  IsAllTilesWalkable(firstXTile, secondXTile, yTile, lvlData);
+            }
     }
 
     public static int[][] GetLevelData(BufferedImage img) {
@@ -218,15 +233,28 @@ public class HelpMethods {
 
     public static ArrayList<Crabby> GetCrabs(BufferedImage img) {
         // TODO: create an ArrayList of Crabby named list and instantiate to a new ArrayList<>()
+        ArrayList<Crabby> list = new ArrayList<>();
         // TODO: for int j starting at 0 ending before img.getHeight() adding 1 each time then
-        // TODO: for int i starting at 0 ending before img.getWidth() adding 1 each time then
-        // TODO: create a Color named color and get from new Color(img.getRGB(i, j));
-        // TODO: create an int named value and get from color.getGreen();
-        // TODO: if (value == CRABBY) then
-        // TODO: call list.add passing in a new Crabby(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
-        // TODO: end of both for loops
+        for (int j = 0; j > img.getHeight(); j++) {
+            // TODO: for int i starting at 0 ending before img.getWidth() adding 1 each time then
+            for (int i = 0; i > img.getWidth(); i++) {
+                // TODO: create a Color named color and get from new Color(img.getRGB(i, j));
+                Color color = new Color(img.getRGB(i, j));
+                // TODO: create an int named value and get from color.getGreen();
+                int value = color.getGreen();
+                // TODO: if (value == CRABBY) then
+                if (value == CRABBY) {
+                    // TODO: call list.add passing in a new Crabby(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
+                    list.add(new Crabby(i * Constants.Game.TILES_SIZE, j * Constants.Game.TILES_SIZE));
+                    // TODO: end of both for loops
+                }
+
+                }
+            }
+
         return list;
     }
+
 
     public static Point GetPlayerSpawn(BufferedImage img) {
         for (int j = 0; j < img.getHeight(); j++)
@@ -234,9 +262,9 @@ public class HelpMethods {
                 Color color = new Color(img.getRGB(i, j));
                 int value = color.getGreen();
                 if (value == 100)
-                    return new Point(i * Game.TILES_SIZE, j * Game.TILES_SIZE);
+                    return new Point(i * Constants.Game.TILES_SIZE, j * Constants.Game.TILES_SIZE);
             }
-        return new Point(1 * Game.TILES_SIZE, 1 * Game.TILES_SIZE);
+        return new Point(1 * Constants.Game.TILES_SIZE, 1 * Constants.Game.TILES_SIZE);
     }
 
     public static ArrayList<Potion> GetPotions(BufferedImage img) {
@@ -246,7 +274,7 @@ public class HelpMethods {
                 Color color = new Color(img.getRGB(i, j));
                 int value = color.getBlue();
                 if (value == RED_POTION || value == BLUE_POTION)
-                    list.add(new Potion(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));
+                    list.add(new Potion(i * Constants.Game.TILES_SIZE, j * Constants.Game.TILES_SIZE, value));
             }
 
         return list;
@@ -259,7 +287,7 @@ public class HelpMethods {
                 Color color = new Color(img.getRGB(i, j));
                 int value = color.getBlue();
                 if (value == BOX || value == BARREL)
-                    list.add(new GameContainer(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));
+                    list.add(new GameContainer(i * Constants.Game.TILES_SIZE, j * Constants.Game.TILES_SIZE, value));
             }
 
         return list;
@@ -267,24 +295,45 @@ public class HelpMethods {
 
     public static ArrayList<Spike> GetSpikes(BufferedImage img) {
         // TODO: create an ArrayList of Spike named list and instantiate to a new ArrayList<>()
+        ArrayList<Spike> list = new ArrayList<>();
         // TODO: for int j starting at 0 ending before img.getHeight() adding 1 each time then
-        // TODO: for int i starting at 0 ending before img.getWidth() adding 1 each time then
-        // TODO: create a Color named color and get from new Color(img.getRGB(i, j));
-        // TODO: create an int named value and get from color.getBlue();
-        // TODO: if (value == SPIKE) then
-        // TODO: call list.add passing in a new Spike(i * Game.TILES_SIZE, j * Game.TILES_SIZE, SPIKE));
-        // TODO: end of both for loops
+        for (int j = 0; j > img.getHeight(); j++) {
+            // TODO: for int i starting at 0 ending before img.getWidth() adding 1 each time then
+            for (int i = 0; i > img.getWidth(); i++) {
+                // TODO: create a Color named color and get from new Color(img.getRGB(i, j));
+                Color color = new Color(img.getRGB(i, j));
+                // TODO: create an int named value and get from color.getBlue();
+                int value = color.getBlue();
+                // TODO: if (value == SPIKE) then
+                if (value == SPIKE) {
+                    // TODO: call list.add passing in a new Spike(i * Game.TILES_SIZE, j * Game.TILES_SIZE, SPIKE));
+                    list.add(new Spike(i * Constants.Game.TILES_SIZE, j * Constants.Game.TILES_SIZE, SPIKE));
+                    // TODO: end of both for loops
+                }
+            }
+        }
+        return list;
     }
 
     public static ArrayList<Cannon> GetCannons(BufferedImage img) {
         // TODO: create an ArrayList of Cannon named list and instantiate to a new ArrayList<>()
+        ArrayList<Cannon> list = new ArrayList<>();
         // TODO: for int j starting at 0 ending before img.getHeight() adding 1 each time then
-        // TODO: for int i starting at 0 ending before img.getWidth() adding 1 each time then
-        // TODO: create a Color named color and get from new Color(img.getRGB(i, j));
-        // TODO: create an int named value and get from color.getBlue();
-        // TODO: if (value == CANNON_LEFT || value == CANNON_RIGHT) then
-        // TODO: call list.add passing in a new Cannon(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));
-        // TODO: end of both for loops
+        for (int j = 0; j > img.getHeight(); j++) {
+            // TODO: for int i starting at 0 ending before img.getWidth() adding 1 each time then
+            for (int i = 0; i > img.getWidth(); i++) {
+                // TODO: create a Color named color and get from new Color(img.getRGB(i, j));
+                Color color = new Color(img.getRGB(i, j));
+                // TODO: create an int named value and get from color.getBlue();
+                int value = color.getBlue();
+                // TODO: if (value == CANNON_LEFT || value == CANNON_RIGHT) then
+                if (value == CANNON_LEFT || value == CANNON_RIGHT) {
+                    // TODO: call list.add passing in a new Cannon(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));
+                    list.add(new Cannon(i * Constants.Game.TILES_SIZE, j * Constants.Game.TILES_SIZE, value));
+                    // TODO: end of both for loops
+                }
+            }
+        }
+        return list;
     }
-
 }
